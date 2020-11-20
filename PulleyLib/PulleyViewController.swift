@@ -1364,6 +1364,16 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
                     (drawer.primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerPositionDidChange?(drawer: drawer, bottomSafeArea: self?.pulleySafeAreaInsets.bottom ?? 0.0)
                     
                     drawer.view.layoutIfNeeded()
+
+                    if self?.currentDisplayMode == .panel {
+                        if position == PulleyPosition.closed {
+                            self?.drawerScrollView.isHidden = true
+                        } else {
+                            self?.drawerScrollView.isHidden = false
+                        }
+                    } else {
+                        self?.drawerScrollView.isHidden = false
+                    }
                 }
 
                 }, completion: { [weak self] (completed) in
@@ -1380,6 +1390,16 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             
             // Move backgroundDimmingView to avoid drawer background being darkened
             backgroundDimmingView.frame = backgroundDimmingViewFrameForDrawerPosition(stopToMoveTo)
+
+            if self.currentDisplayMode == .panel {
+                if position == PulleyPosition.closed {
+                    self.drawerScrollView.isHidden = true
+                } else {
+                    self.drawerScrollView.isHidden = false
+                }
+            } else {
+                self.drawerScrollView.isHidden = false
+            }
             
             delegate?.drawerPositionDidChange?(drawer: self, bottomSafeArea: pulleySafeAreaInsets.bottom)
             (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(drawer: self, bottomSafeArea: pulleySafeAreaInsets.bottom)
